@@ -77,7 +77,7 @@ teamMembersRouter
     })
     .delete(requireAuth, (req, res, next) => {
         TeamMembersService.deleteTeamMember(req.app.get("db"), req.params.user_id)
-            .then((nupdatedTeamMember) => {
+            .then((updatedTeamMember) => {
                 res.status(204).end();
             })
             .catch(next);
@@ -96,7 +96,7 @@ teamMembersRouter
         }
 
         TeamMembersService.updateTeamMember(req.app.get("db"), user_id, first_name, last_name)
-            .then((nupdatedTeamMember) => {
+            .then((updatedTeamMember) => {
                 res.status(204).json("PATCH a success");
             })
             .catch(next);
