@@ -10,7 +10,9 @@ teamMembersRouter
     .route("/")
     .get((req, res, next) => {
         const knexInstance = req.app.get("db");
-        const creator_id = req.user.id;
+        const creator_id = user_id;
+        //const creator_id = user_id;
+        
         // Gets team_member and user's profile data
         // SELECT * FROM team_members WHERE team_id = 9 AND accepted = true AND event_id IS null;
         TeamMembersService.getTeamId(knexInstance, creator_id)
@@ -45,8 +47,8 @@ teamMembersRouter
                     error: { message: `Missing '${key}' in request body` },
                 });
             }
-        const event_id = req.body.event_id;
-        newTeamMember = { team_id, user_id, first_name, last_name, event_id };
+
+        newTeamMember = { team_id, user_id, first_name, last_name };
 
         TeamMembersService.insertTeamMember(req.app.get("db"), newTeamMember)
             .then((tmemb) => {
@@ -57,6 +59,7 @@ teamMembersRouter
 teamMembersRouter
     .route("/:user_id")
     .all((req, res, next) => {
+        const creator_id = user_id;
         TeamMembersService.getTeamMemberByUserId(
             req.app.get("db"),
             req.params.user_id
@@ -73,6 +76,7 @@ teamMembersRouter
             .catch(next);
     })
     .get((req, res, next) => {
+        
         res.json(res.user);
     })
     .delete(requireAuth, (req, res, next) => {
