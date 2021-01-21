@@ -10,7 +10,7 @@
         "migrate:test": "env NODE_ENV=test npm run migrate",
         "migrate:production": "heroku run PGSSLMODE=no-verify npm run migrate",
         "postdeploy": "npm run migrate:production",
-        "start": "node src/server.js",
+        "start": "node server.js",
         "predeploy": "npm audit",
         "deploy": "git push heroku main"
     },
