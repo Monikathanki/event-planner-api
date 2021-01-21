@@ -10,7 +10,6 @@ const authRouter = require("./Auth/auth-router");
 const teamsRouter = require("./Teams/teams-router");
 const usersRouter = require("./Users/users-router");
 const teamMembersRouter = require("./TeamMembers/team-members-router");
-//const emailsRouter = require("./Emails/email-router");
 
 
 

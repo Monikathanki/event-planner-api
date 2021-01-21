@@ -10,9 +10,7 @@ teamMembersRouter
     .route("/")
     .get((req, res, next) => {
         const knexInstance = req.app.get("db");
-        const creator_id = user_id;
-        //const creator_id = user_id;
-        
+        const creator_id = req.user_id;
         // Gets team_member and user's profile data
         // SELECT * FROM team_members WHERE team_id = 9 AND accepted = true AND event_id IS null;
         TeamMembersService.getTeamId(knexInstance, creator_id)
@@ -34,12 +32,13 @@ teamMembersRouter
             .catch(next);
     })
     .post(requireAuth, (req, res, next) => {
-        const { team_id, user_id, first_name, last_name} = req.body;
+        const { team_id, user_id, first_name, last_name, phone_number} = req.body;
         let newTeamMember = {
             team_id,
             user_id,
            first_name,
            last_name,
+           phone_number
         };
         for (const [key, value] of Object.entries(newTeamMember))
             if (value == null) {
@@ -47,8 +46,8 @@ teamMembersRouter
                     error: { message: `Missing '${key}' in request body` },
                 });
             }
-
-        newTeamMember = { team_id, user_id, first_name, last_name };
+        // const event_id = req.body.event_id;
+        newTeamMember = { team_id, user_id, first_name, last_name, phone_number };
 
         TeamMembersService.insertTeamMember(req.app.get("db"), newTeamMember)
             .then((tmemb) => {
@@ -59,29 +58,29 @@ teamMembersRouter
 teamMembersRouter
     .route("/:user_id")
     .all((req, res, next) => {
-        const creator_id = user_id;
+        // const creator_id = user_id;
         TeamMembersService.getTeamMemberByUserId(
             req.app.get("db"),
             req.params.user_id
         )
-            .then((user) => {
-                if (!user) {
+            .then((members) => {
+                if (!members) {
                     return res.status(400).json({
-                        error: { message: `User doesn't exist` },
+                        error: { message: `Member doesn't exist` },
                     });
                 }
-                res.user = user;
+                res.members = members;
                 next();
             })
             .catch(next);
     })
     .get((req, res, next) => {
-        
-        res.json(res.user);
+        console.log(res.members)
+        res.json(res.members);
     })
     .delete(requireAuth, (req, res, next) => {
         TeamMembersService.deleteTeamMember(req.app.get("db"), req.params.user_id)
-            .then((updatedTeamMember) => {
+            .then((nupdatedTeamMember) => {
                 res.status(204).end();
             })
             .catch(next);
@@ -100,7 +99,7 @@ teamMembersRouter
         }
 
         TeamMembersService.updateTeamMember(req.app.get("db"), user_id, first_name, last_name)
-            .then((updatedTeamMember) => {
+            .then((nupdatedTeamMember) => {
                 res.status(204).json("PATCH a success");
             })
             .catch(next);
