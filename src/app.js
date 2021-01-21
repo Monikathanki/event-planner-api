@@ -12,8 +12,9 @@ const usersRouter = require("./Users/users-router");
 const teamMembersRouter = require("./TeamMembers/team-members-router");
 
 
+const PORT = process.env.PORT || '8001'
 
-
+app.set("port", PORT)
 
 const app = express()
 
