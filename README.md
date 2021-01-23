@@ -1,26 +1,67 @@
-# Express Boilerplate!
+# event Planner
 
-This is a boilerplate project used for starting new projects!
+Live App: [https://event-planner-app.vercel.app](url)
 
-## Set up
 
-Complete the following steps to start a new project (NEW-PROJECT-NAME):
 
-1. Clone this repository to your local machine `git clone BOILERPLATE-URL NEW-PROJECTS-NAME`
-2. `cd` into the cloned repository
-3. Make a fresh start of the git history for this project with `rm -rf .git && git init`
-4. Install the node dependencies `npm install`
-5. Move the example Environment file to `.env` that will be ignored by git and read by the express server `mv example.env .env`
-6. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "express-boilerplate",`
+### Summary
+Event planner app where user can plan their event. add create team and add team member. 
 
-## Scripts
+1. User create team 
+2. add team member
+3. create event
 
-Start the application `npm start`
 
-Start nodemon for the application `npm run dev`
 
-Run the tests `npm test`
+## Technologies
 
-## Deploying
+- Node and Express
+- Authentication via JWT
+- RESTful API
 
-When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's main branch.
+## Testing
+
+- Supertest (integration)
+- Mocha and Chai (unit)
+
+## Database
+- Postgres
+- Knex.js
+
+## Production
+
+Deployed via Heroku
+
+### API Endpoints
+
+## User Router
+
+- /api/users
+  - GET - gets all users
+  - POST - creates a new user
+
+## events Router
+- /api/events
+  - GET - gets all events
+  - POST - creates a new event
+
+## events/:id Router
+- /api/events/:id 
+  - GET - gets event by id 
+  - DELETE - deletes a event by id 
+  - PATCH - updates a event by id 
+  - PUT - marks event completed
+
+## teams Router
+- /api/teams
+  - GET - gets all teams
+  - POST - create a new team
+
+## teams/:id Router
+- /api/teams/:id
+ - GET - gets teams by id
+
+## team-members Router
+ -/api/team-members
+  - GET - gets all team-members
+  - POST - create a new team-member
